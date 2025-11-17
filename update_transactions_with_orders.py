@@ -73,7 +73,7 @@ def update_transactions(conn, excel_data):
 
 def main():
     script_dir = get_script_directory()
-    excel_file_path = os.path.join(script_dir, 'Primenet.xlsx')
+    excel_file_path = os.path.join(script_dir, 'orders.xlsx')
     
     print("🚀 Starting transaction update process...")
     print(f"📁 Script directory: {script_dir}")
