@@ -89,7 +89,7 @@ def get_transactions_from_database(conn, excel_data):
             {}
         )
         AND t.status_code = 300
-        """.format(','.join(['(%s, %s, DATE(%s))'] * len(account_numbers)))
+        """.format(','.join(['(%s, DATE(%s))'] * len(account_numbers)))
         
         # Create parameter list: [phone1, amount1, date1, phone2, amount2, date2, ...]
         params = []
