@@ -58,13 +58,13 @@ def get_transactions_from_database(conn, excel_data):
     """Query database for transactions based on Excel data with exact date matching"""
     try:
         # Convert Excel data to formats suitable for SQL query
-        phone_numbers = excel_data['Phone Number'].astype(str).tolist()
+        account_numbers = excel_data['Account Number'].astype(str).tolist()
         amounts = excel_data['Amount'].tolist()
         
         # Convert dates to MySQL datetime format (YYYY-MM-DD HH:MM:SS)
         excel_dates = excel_data['Created At'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist()
         
-        print(f"🔍 Querying database for {len(phone_numbers)} transactions...")
+        print(f"🔍 Querying database for {len(account_numbers)} transactions...")
         print(f"📅 Sample dates from Excel: {excel_dates[:3]}")  # Show first 3 dates
         
         # Build the query to match transactions exactly by phone, amount, AND date
@@ -85,16 +85,16 @@ def get_transactions_from_database(conn, excel_data):
         JOIN clients c ON t.client_id = c.id
         JOIN status_codes sc ON t.status_code = sc.status_code
         JOIN services s ON t.service_id = s.id
-        WHERE (t.phone_number, t.amount, DATE(t.created_at)) IN (
+        WHERE (t.account_number, t.amount, DATE(t.created_at)) IN (
             {}
         )
         AND t.status_code = 300
-        """.format(','.join(['(%s, %s, DATE(%s))'] * len(phone_numbers)))
+        """.format(','.join(['(%s, %s, DATE(%s))'] * len(account_numbers)))
         
         # Create parameter list: [phone1, amount1, date1, phone2, amount2, date2, ...]
         params = []
-        for i in range(len(phone_numbers)):
-            params.extend([phone_numbers[i], amounts[i], excel_dates[i]])
+        for i in range(len(account_numbers)):
+            params.extend([account_numbers[i], amounts[i], excel_dates[i]])
         
         print(f"📝 Executing query with {len(params)} parameters...")
         
