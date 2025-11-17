@@ -85,7 +85,7 @@ def get_transactions_from_database(conn, excel_data):
         JOIN clients c ON t.client_id = c.id
         JOIN status_codes sc ON t.status_code = sc.status_code
         JOIN services s ON t.service_id = s.id
-        WHERE (t.account_number, t.amount, DATE(t.created_at)) IN (
+        WHERE (t.account_number, DATE(t.created_at)) IN (
             {}
         )
         AND t.status_code = 300
@@ -94,7 +94,7 @@ def get_transactions_from_database(conn, excel_data):
         # Create parameter list: [phone1, amount1, date1, phone2, amount2, date2, ...]
         params = []
         for i in range(len(account_numbers)):
-            params.extend([account_numbers[i], amounts[i], excel_dates[i]])
+            params.extend([account_numbers[i], excel_dates[i]])
         
         print(f"📝 Executing query with {len(params)} parameters...")
         
