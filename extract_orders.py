@@ -58,7 +58,6 @@ def get_transactions_from_database(conn, excel_data):
         FROM woo_commerces
         WHERE external_reference IN ({})
         """.format(','.join(['%s'] * len(external_ids)))
-
         
         params = []
         for i in range(len(external_ids)):
