@@ -12,8 +12,9 @@ def create_db_connection():
         conn = mysql.connector.connect(
             host='database.primenetpay.com',
             user='primenetadmin',
-            password='fr6OznzojH2mpkUgXQQQ',
-            database='primenet_payment_gateway'
+            password='45677',
+            database='gated',
+            port=3306
         )
         print("✅ Successfully connected to the database")
         return conn
