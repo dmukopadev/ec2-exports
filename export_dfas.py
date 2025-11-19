@@ -3,9 +3,9 @@ import mysql.connector
 
 conn = mysql.connector.connect(
     host='localhost',
-    user='ecommerce',
-    password='3cK0mMeRc3',
-    database='ecommerce_processor'
+    user='znfu',
+    password='laravel',
+    database='laravel'
 )
 
 query = """
