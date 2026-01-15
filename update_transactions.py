@@ -29,7 +29,7 @@ def read_excel_file(file_path):
             return None
         
         df = pd.read_excel(file_path, header=None)
-        df.columns = ['external_id', 'merchant_id']
+        df.columns = ['external_id']
         
         print(f"Found {len(df)} rows in Excel")
         return df
@@ -43,17 +43,16 @@ def update_transactions(conn, excel_data):
         cursor = conn.cursor()
         update_query = """
         UPDATE transactions 
-        SET merchant_id = %s, status_code = 300, response_message = 'SUCCESS'
+        SET status_code = 301, response_message = 'FAILED'
         WHERE external_id = %s
         """
         
         updated_count = 0
         
         for idx, row in excel_data.iterrows():
-            merchant_id = str(row['merchant_id'])
             external_id = str(row['external_id'])
             
-            cursor.execute(update_query, (merchant_id, external_id))
+            cursor.execute(update_query, (external_id))
             updated_count += cursor.rowcount
         
         conn.commit()
