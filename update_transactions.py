@@ -52,6 +52,31 @@ def update_transactions(conn, excel_data):
         for idx, row in excel_data.iterrows():
             external_id = str(row['external_id'])
             
+            cursor.execute(update_query, (external_id,))
+            updated_count += cursor.rowcount
+        
+        conn.commit()
+        cursor.close()
+        
+        print(f"Updated {updated_count} transactions")
+        return updated_count
+    except Exception as e:
+        print(f"Error updating database: {e}")
+        return 0
+    """Update transactions in the database"""
+    try:
+        cursor = conn.cursor()
+        update_query = """
+        UPDATE transactions 
+        SET status_code = 301, response_message = 'FAILED'
+        WHERE external_id = %s
+        """
+        
+        updated_count = 0
+        
+        for idx, row in excel_data.iterrows():
+            external_id = str(row)
+            
             cursor.execute(update_query, (external_id))
             updated_count += cursor.rowcount
         
